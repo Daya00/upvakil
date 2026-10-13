@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPVakil.online - AI Legal Drafting Assistant for UP Advocates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --accent-color: #c59b27;
+            --bg-light: #f8fafc;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: #333;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 80px 0 60px 0;
+        }
+        .badge-court {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .btn-gold {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+        }
+        .btn-gold:hover {
+            background-color: #d4a72c;
+            color: #000;
+        }
+        .draft-preview {
+            background-color: #ffffff;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark style="background-color: var(--primary-color);">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fa-solid font-scale"></i> UPVAKIL<span style="color: var(--accent-color);">.online</span></a>
+            <span class="badge bg-warning text-dark fs-6 ms-2">UP Legal AI Assistant</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center">
+        <div class="container">
+            <span class="badge-court mb-3 d-inline-block">Allahabad High Court & UP District Courts Special</span>
+            <h1 class="display-4 fw-bold mb-3">उत्तर प्रदेश के अधिवक्ताओं के लिए Smart Legal Drafting Agent</h1>
+            <p class="lead text-light opacity-75 mx-auto mb-4" style="max-width: 750px;">
+                Bail Applications, Anticipatory Bail, UP Revenue Code Applications aur Legal Notices ab banayein kuch hi seconds me. Sahi Legal Formatting aur Precedents ke saath.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#request-access" class="btn btn-gold btn-lg"><i class="fa-solid fa-bolt me-2"></i>Free Demo Try Karein</a>
+                <a href="#sample-draft" class="btn btn-outline-light btn-lg"><i class="fa-regular fa-file-lines me-2"></i>Sample Draft Dekhein</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5" style="color: var(--primary-color);">UPVakil AI Kya-Kya Kar Sakta Hai?</h2>
+            <div class="row g-4">
+                
+                <!-- Feature 1 -->
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-gavel"></i>
+                        </div>
+                        <h4 class="fw-bold">Bail & Criminal Drafting</h4>
+                        <p class="text-muted">FIR Details aur Sections (BNS / IPC) daalte hi District Court ya High Court format ki ready-to-print Bail Application aur Affidavits तैयार करें।</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-landmark"></i>
+                        </div>
+                        <h4 class="fw-bold">UP Revenue Code Matters</h4>
+                        <p class="text-muted">Tehsildar, SDM aur Board of Revenue courts ke liye Dakhil-Kharij (Mutation), Partition Suit, aur Boundary Dispute ki Legal Hindi me drafting.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <h4 class="fw-bold">Case Law & Citation Finder</h4>
+                        <p class="text-muted">Allahabad High Court aur Supreme Court ke relevant judgments aur precedent ratios quick arguments ke liye search karein.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Draft Preview Section -->
+    <section id="sample-draft" class="py-5 bg-white border-top border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3" style="color: var(--primary-color);">High Court & District Court Compliant Formats</h2>
+                    <p class="text-muted">General AI tools legal terms aur local court rules nahi samajhte. UPVakil specially Uttar Pradesh Civil/Criminal Court Rules aur High Court guidelines par trained hai.</p>
+                    <ul class="list-unstyled text-secondary fs-5">
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Complete Hindi & Mix Legal English Support</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Proper Court Margins, Index & Indexing</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Accompanying Affidavits Included</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="draft-preview shadow-sm">
+                        <small class="text-uppercase text-muted fw-bold mb-2 d-block">[ Sample Preview Output ]</small>
+                        <strong>IN THE COURT OF HON'BLE SESSIONS JUDGE, LUCKNOW</strong><br>
+                        <small>Bail Application No. _____ of 2026</small><br><br>
+                        <strong>In the matter of:</strong> State of U.P. vs Applicant<br>
+                        <strong>Crime No:</strong> 123/2026 | <strong>P.S:</strong> Hazratganj<br>
+                        <strong>Under Section:</strong> 303(2) BNS (Bharatiya Nyaya Sanhita)<br><br>
+                        <em>"MOST RESPECTFULLY SHOWETH: That the applicant is innocent and has been falsely implicated in the present crime due to local rivalry..."</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Capture / Contact Form Section -->
+    <section id="request-access" class="py-5" style="background-color: #edf2f7;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h2 class="fw-bold mb-2" style="color: var(--primary-color);">Free Beta Access Request Karein</h2>
+                    <p class="text-muted mb-4">Apna WhatsApp No. aur Court details register karein, hum aapko 1-Click Drafting AI Agent ki free link bhejenge.</p>
+                    
+                    <form action="https://formspree.io/f/sample" method="POST" class="row g-3 justify-content-center">
+                        <div class="col-md-5">
+                            <input type="text" class="form-control form-control-lg" placeholder="Aapka Naam / Advocate Name" required>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="tel" class="form-control form-control-lg" placeholder="WhatsApp No." required>
+                        </div>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control form-control-lg" placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)">
+                        </div>
+                        <div class="col-md-10">
+                            <button type="submit" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-white" style="background-color: var(--primary-color);">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 UPVakil.online | Designed for Advocates of Uttar Pradesh</p>
+        </div>
+    </footer>
+
+</body>
+</html>
