@@ -76,9 +76,9 @@
 <body>
 
     <!-- Header / Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark style="background-color: var(--primary-color);">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fa-solid font-scale"></i> UPVAKIL<span style="color: var(--accent-color);">.online</span></a>
+            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fa-solid fa-scale-balanced me-2"></i>UPVAKIL<span style="color: var(--accent-color);">.online</span></a>
             <span class="badge bg-warning text-dark fs-6 ms-2">UP Legal AI Assistant</span>
         </div>
     </nav>
@@ -103,40 +103,27 @@
         <div class="container">
             <h2 class="text-center fw-bold mb-5" style="color: var(--primary-color);">UPVakil AI Kya-Kya Kar Sakta Hai?</h2>
             <div class="row g-4">
-                
-                <!-- Feature 1 -->
                 <div class="col-md-4">
                     <div class="card feature-card h-100 p-4">
-                        <div class="icon-box">
-                            <i class="fa-solid fa-gavel"></i>
-                        </div>
+                        <div class="icon-box"><i class="fa-solid fa-gavel"></i></div>
                         <h4 class="fw-bold">Bail & Criminal Drafting</h4>
                         <p class="text-muted">FIR Details aur Sections (BNS / IPC) daalte hi District Court ya High Court format ki ready-to-print Bail Application aur Affidavits तैयार करें।</p>
                     </div>
                 </div>
-
-                <!-- Feature 2 -->
                 <div class="col-md-4">
                     <div class="card feature-card h-100 p-4">
-                        <div class="icon-box">
-                            <i class="fa-solid fa-landmark"></i>
-                        </div>
+                        <div class="icon-box"><i class="fa-solid fa-landmark"></i></div>
                         <h4 class="fw-bold">UP Revenue Code Matters</h4>
                         <p class="text-muted">Tehsildar, SDM aur Board of Revenue courts ke liye Dakhil-Kharij (Mutation), Partition Suit, aur Boundary Dispute ki Legal Hindi me drafting.</p>
                     </div>
                 </div>
-
-                <!-- Feature 3 -->
                 <div class="col-md-4">
                     <div class="card feature-card h-100 p-4">
-                        <div class="icon-box">
-                            <i class="fa-solid fa-scale-balanced"></i>
-                        </div>
+                        <div class="icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
                         <h4 class="fw-bold">Case Law & Citation Finder</h4>
                         <p class="text-muted">Allahabad High Court aur Supreme Court ke relevant judgments aur precedent ratios quick arguments ke liye search karein.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -169,28 +156,35 @@
         </div>
     </section>
 
-    <!-- Lead Capture / Contact Form Section -->
+    <!-- Lead Capture Form Section -->
     <section id="request-access" class="py-5" style="background-color: #edf2f7;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
                     <h2 class="fw-bold mb-2" style="color: var(--primary-color);">Free Beta Access Request Karein</h2>
-                    <p class="text-muted mb-4">Apna WhatsApp No. aur Court details register karein, hum aapko 1-Click Drafting AI Agent ki free link bhejenge.</p>
+                    <p class="text-muted mb-4">Apna Mobile No. aur Court details register karein, hum aapko 1-Click Drafting AI Agent ki free link bhejenge.</p>
                     
-                    <form action="https://formspree.io/f/sample" method="POST" class="row g-3 justify-content-center">
+                    <form id="leadForm" class="row g-3 justify-content-center">
                         <div class="col-md-5">
-                            <input type="text" class="form-control form-control-lg" placeholder="Aapka Naam / Advocate Name" required>
+                            <input type="text" id="advName" class="form-control form-control-lg" placeholder="Aapka Naam / Advocate Name" required>
                         </div>
                         <div class="col-md-5">
-                            <input type="tel" class="form-control form-control-lg" placeholder="WhatsApp No." required>
+                            <input type="tel" id="advPhone" class="form-control form-control-lg" placeholder="Mobile / WhatsApp No." required>
                         </div>
                         <div class="col-md-10">
-                            <input type="text" class="form-control form-control-lg" placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)">
+                            <input type="text" id="advCourt" class="form-control form-control-lg" placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)">
                         </div>
                         <div class="col-md-10">
-                            <button type="submit" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
+                            <button type="submit" id="submitBtn" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
                         </div>
                     </form>
+
+                    <!-- Success Response Message (Hidden by default) -->
+                    <div id="responseMessage" class="alert alert-success mt-4 d-none" role="alert">
+                        <h4 class="alert-heading fw-bold"><i class="fa-solid fa-circle-check me-2"></i>Access Request Received!</h4>
+                        <p class="mb-0">Aapki details successfully register ho gayi hain. Hamari team aapse jald hi contact karegi aur AI Agent ka Beta Access provide karegi. Dhanyawad!</p>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -202,6 +196,44 @@
             <p class="mb-0">&copy; 2026 UPVakil.online | Designed for Advocates of Uttar Pradesh</p>
         </div>
     </footer>
+
+    <!-- JavaScript for Google Sheet Form Submission -->
+    <script>
+        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE INSIDE QUOTES:
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDpVZ_wWOYD1ist0EYPvYK_f60_ATPg16TZHmIQarMUcacAOXrv9D-3eWWe6VOXYT9/exec";
+
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Submitting...';
+
+            const payload = {
+                name: document.getElementById('advName').value,
+                phone: document.getElementById('advPhone').value,
+                court: document.getElementById('advCourt').value
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById('leadForm').classList.add('d-none');
+                document.getElementById('responseMessage').classList.remove('d-none');
+            })
+            .catch(error => {
+                alert("Koi issue aaya. Kripya punah prayas karein.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Get Instant Free Access';
+            });
+        });
+    </script>
 
 </body>
 </html>
