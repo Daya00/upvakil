@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://upvakil.online/sitemap.xml
