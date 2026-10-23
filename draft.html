@@ -146,35 +146,37 @@
         document.getElementById('outputDraftArea').value = "";
 
         // TODO: Yahan apna Azure Function URL paste karein 👇
-        const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil"; 
+       const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
 
-        try {
-            const response = await fetch(azureFunctionUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    courtName: courtName,
-                    caseType: caseType,
-                    applicantName: applicantName,
-                    facts: facts
-                })
-            });
+// Body JSON Object
+const payload = {
+    courtName: document.getElementById("courtName").value,
+    caseType: document.getElementById("caseType").value,
+    applicantName: document.getElementById("applicantName").value,
+    facts: document.getElementById("facts").value
+};
 
-            const data = await response.json();
-
-            if (data.draft) {
-                document.getElementById('outputDraftArea').value = data.draft;
-            } else {
-                alert("ड्राफ्ट जनरेट करने में कोई समस्या आई। कृपया पुनः प्रयास करें।");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("सर्वर से कनेक्ट करने में विफल। कृपया अपना Azure URL चेक करें।");
-        } finally {
-            document.getElementById('loadingText').style.display = 'none';
-        }
+fetch(azureFunctionUrl, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error("HTTP error! Status: " + response.status);
+    }
+    return response.json();
+})
+.then(data => {
+    console.log("Response:", data);
+    // Yahan generated draft handle karein
+})
+.catch(error => {
+    console.error("Fetch Error:", error);
+});
+    
     }
 
     function copyDraft() {
