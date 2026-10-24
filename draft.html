@@ -131,53 +131,39 @@
 
  
     async function generateDraft() {
-        const courtName = document.getElementById('courtName').value;
-        const caseType = document.getElementById('caseType').value;
-        const applicantName = document.getElementById('applicantName').value;
-        const facts = document.getElementById('facts').value;
+    const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
 
-        if (!caseType || !facts) {
-            alert("कृपया 'Case Type' और 'Case Facts' अनिवार्य रूप से भरें!");
-            return;
+    const requestData = {
+        courtName: document.getElementById("courtName").value,
+        caseType: document.getElementById("caseType").value,
+        applicantName: document.getElementById("applicantName").value,
+        facts: document.getElementById("facts").value
+    };
+
+    try {
+        const response = await fetch(azureFunctionUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server returned status: ${response.status}`);
         }
 
-        // Loading show karein
-        document.getElementById('loadingText').style.display = 'block';
-        document.getElementById('outputDraftArea').value = "";
+        const data = await response.json();
+        console.log("Draft Result:", data);
+        
+        // Output text area/div me result set karein
+        document.getElementById("outputDraft").value = data.draft || data.result || JSON.stringify(data);
 
-        // TODO: Yahan apna Azure Function URL paste karein 👇
-       const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
-
-// Body JSON Object
-const payload = {
-    courtName: document.getElementById("courtName").value,
-    caseType: document.getElementById("caseType").value,
-    applicantName: document.getElementById("applicantName").value,
-    facts: document.getElementById("facts").value
-};
-
-fetch(azureFunctionUrl, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error("HTTP error! Status: " + response.status);
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("Draft generate karne me error aayi: " + error.message);
     }
-    return response.json();
-})
-.then(data => {
-    console.log("Response:", data);
-    // Yahan generated draft handle karein
-})
-.catch(error => {
-    console.error("Fetch Error:", error);
-});
-    
-    }
+}
 
     function copyDraft() {
         const draftArea = document.getElementById('outputDraftArea');
