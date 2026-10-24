@@ -128,40 +128,52 @@
 </div>
 
 <script>
-
- 
     async function generateDraft() {
-    const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
+        const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
 
-    const payload = {
-        courtName: document.getElementById("courtName").value,
-        caseType: document.getElementById("caseType").value,
-        applicantName: document.getElementById("applicantName").value,
-        facts: document.getElementById("facts").value
-    };
+        const payload = {
+            courtName: document.getElementById("courtName").value,
+            caseType: document.getElementById("caseType").value,
+            applicantName: document.getElementById("applicantName").value,
+            facts: document.getElementById("facts").value
+        };
 
-    try {
-        const response = await fetch(azureFunctionUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.error || `HTTP ${response.status}`);
+        if (!payload.caseType || !payload.facts) {
+            alert("Kripya Case Type aur Facts zaroor bharein!");
+            return;
         }
 
-        const data = await response.json();
-        document.getElementById("outputDraft").value = data.draft;
+        const loadingText = document.getElementById("loadingText");
+        const outputArea = document.getElementById("outputDraftArea");
 
-    } catch (err) {
-        console.error("Draft Generation Error:", err);
-        alert("Failed to generate draft: " + err.message);
+        loadingText.style.display = "block";
+        outputArea.value = "";
+
+        try {
+            const response = await fetch(azureFunctionUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || `HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            // ✅ Corrected element ID from outputDraft to outputDraftArea
+            outputArea.value = data.draft || "Draft generation successful but empty output.";
+
+        } catch (err) {
+            console.error("Draft Generation Error:", err);
+            alert("Failed to generate draft: " + err.message);
+        } finally {
+            loadingText.style.display = "none";
+        }
     }
-}
 
     function copyDraft() {
         const draftArea = document.getElementById('outputDraftArea');
