@@ -133,7 +133,7 @@
     async function generateDraft() {
     const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil";
 
-    const requestData = {
+    const payload = {
         courtName: document.getElementById("courtName").value,
         caseType: document.getElementById("caseType").value,
         applicantName: document.getElementById("applicantName").value,
@@ -146,22 +146,20 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(requestData)
+            body: JSON.stringify(payload)
         });
 
         if (!response.ok) {
-            throw new Error(`Server returned status: ${response.status}`);
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || `HTTP ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Draft Result:", data);
-        
-        // Output text area/div me result set karein
-        document.getElementById("outputDraft").value = data.draft || data.result || JSON.stringify(data);
+        document.getElementById("outputDraft").value = data.draft;
 
-    } catch (error) {
-        console.error("Fetch Error:", error);
-        alert("Draft generate karne me error aayi: " + error.message);
+    } catch (err) {
+        console.error("Draft Generation Error:", err);
+        alert("Failed to generate draft: " + err.message);
     }
 }
 
