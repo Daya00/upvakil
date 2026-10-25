@@ -220,35 +220,36 @@
                 <div class="col-md-8 text-center">
                     <h2 class="fw-bold mb-2" style="color: var(--primary-color);">Free Beta Access Request Karein</h2>
                     <p class="text-muted mb-4">Apna Mobile No. aur Court details register karein, hum aapko 1-Click Drafting AI Agent ki free link bhejenge.</p>
-                    
-                   <form id="leadForm" class="row g-3 justify-content-center" novalidate>
-    <!-- Advocate Name: Max 50 chars, letters and spaces only -->
+                <form id="leadForm" class="row g-3 justify-content-center" novalidate>
+    <!-- Advocate Name -->
     <div class="col-md-5">
         <input type="text" id="advName" name="advName" class="form-control form-control-lg" 
                placeholder="Aapka Naam / Advocate Name" 
                maxlength="50" 
-               pattern="[A-Za-z\s]+" 
-               title="Please enter letters and spaces only (maximum 50 characters)" 
+               pattern="[A-Za-z\s\.]+" 
+               title="Letters, spaces, and dots only (max 50 characters)" 
                required>
+        <div class="invalid-feedback">Kripya apna naam zaroor bharein.</div>
     </div>
 
-    <!-- Mobile Number: 10-digit validation -->
+    <!-- Mobile Number -->
     <div class="col-md-5">
         <input type="tel" id="advPhone" name="advPhone" class="form-control form-control-lg" 
                placeholder="Mobile / WhatsApp No." 
                maxlength="10" 
-               pattern="[0-9]{10}" 
-               title="Please enter a valid 10-digit mobile number" 
+               pattern="[6-9][0-9]{9}" 
+               title="Please enter a valid 10-digit Indian mobile number" 
                required>
+        <div class="invalid-feedback">Kripya valid 10-digit mobile number bharein.</div>
     </div>
 
-    <!-- Court Name: Max 50 chars, alphanumeric and spaces only, no special characters -->
+    <!-- Court Name -->
     <div class="col-md-10">
         <input type="text" id="advCourt" name="advCourt" class="form-control form-control-lg" 
                placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)" 
                maxlength="50" 
-               pattern="[A-Za-z0-9\s]+" 
-               title="Alphanumeric characters and spaces only (maximum 50 characters)">
+               pattern="[A-Za-z0-9\s,\.-]+" 
+               title="Alphanumeric characters, spaces, dots, and hyphens only">
     </div>
 
     <!-- Submit Button -->
@@ -256,6 +257,8 @@
         <button type="submit" id="submitBtn" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
     </div>
 </form>
+
+
 
                     <!-- Success Response Message (Hidden by default) -->
                     <div id="responseMessage" class="alert alert-success mt-4 d-none" role="alert">
@@ -312,6 +315,32 @@
             });
         });
     </script>
+
+        <script>
+document.getElementById('leadForm').addEventListener('submit', function (event) {
+    const form = this;
+    
+    // Trim values to prevent empty space-only submissions
+    const nameInput = document.getElementById('advName');
+    const phoneInput = document.getElementById('advPhone');
+    
+    nameInput.value = nameInput.value.trim();
+    phoneInput.value = phoneInput.value.trim();
+
+    // Check HTML5 validity
+    if (!form.checkValidity() || !nameInput.value || !phoneInput.value) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        alert("Kripya sabhi zaroori fields sahi se bharein (Empty allow nahi hai).");
+        return false;
+    }
+
+    event.preventDefault();
+    console.log("Validation passed successfully!");
+    // Apna aage ka code ya AJAX submission yahan likhein
+});
+</script>
 
 </body>
 </html>
