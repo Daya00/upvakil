@@ -278,67 +278,70 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Google Sheet Form Submission -->
-    <script>
-        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE INSIDE QUOTES:
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDpVZ_wWOYD1ist0EYPvYK_f60_ATPg16TZHmIQarMUcacAOXrv9D-3eWWe6VOXYT9/exec";
-
-        document.getElementById('leadForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Submitting...';
-
-            const payload = {
-                name: document.getElementById('advName').value,
-                phone: document.getElementById('advPhone').value,
-                court: document.getElementById('advCourt').value
-            };
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(() => {
-                document.getElementById('leadForm').classList.add('d-none');
-                document.getElementById('responseMessage').classList.remove('d-none');
-            })
-            .catch(error => {
-                alert("Koi issue aaya. Kripya punah prayas karein.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Get Instant Free Access';
-            });
-        });
-    </script>
-
-        <script>
-document.getElementById('leadForm').addEventListener('submit', function (event) {
+  
+<script>
+document.getElementById('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
     const form = this;
     
-    // Trim values to prevent empty space-only submissions
+    // 1. Get Elements & Trim inputs to prevent space-only submission
     const nameInput = document.getElementById('advName');
     const phoneInput = document.getElementById('advPhone');
-    
+    const courtInput = document.getElementById('advCourt');
+
     nameInput.value = nameInput.value.trim();
     phoneInput.value = phoneInput.value.trim();
+    if (courtInput) {
+        courtInput.value = courtInput.value.trim();
+    }
 
-    // Check HTML5 validity
+    // 2. Form Validation Check
     if (!form.checkValidity() || !nameInput.value || !phoneInput.value) {
-        event.preventDefault();
-        event.stopPropagation();
+        e.stopPropagation();
         form.classList.add('was-validated');
         alert("Kripya sabhi zaroori fields sahi se bharein (Empty allow nahi hai).");
         return false;
     }
 
-    event.preventDefault();
-    console.log("Validation passed successfully!");
-    // Apna aage ka code ya AJAX submission yahan likhein
+    // 3. UI Updates (Disable button & show spinner)
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Submitting...';
+
+    // 4. Data Payload Construction
+    const payload = {
+        name: nameInput.value,
+        phone: phoneInput.value,
+        court: courtInput ? courtInput.value : ""
+    };
+
+    // 5. Google Apps Script Endpoint URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDpVZ_wWOYD1ist0EYPvYK_f60_ATPg16TZHmIQarMUcacAOXrv9D-3eWWe6VOXYT9/exec";
+
+    // 6. Submit Data to Google Sheets via Web App
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        // Success Handler
+        form.classList.add('d-none');
+        const responseMsg = document.getElementById('responseMessage');
+        if (responseMsg) {
+            responseMsg.classList.remove('d-none');
+        }
+    })
+    .catch(error => {
+        // Error Handler
+        console.error("Submission Error:", error);
+        alert("Koi issue aaya. Kripya punah prayas karein.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Get Instant Free Access';
+    });
 });
 </script>
 
