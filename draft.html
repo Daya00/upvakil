@@ -60,8 +60,6 @@
         button:hover {
             background-color: #2c5282;
         }
-        
-        /* Message Banners (No Alerts) */
         .message-box {
             display: none;
             padding: 12px 15px;
@@ -110,14 +108,20 @@
 <div class="container">
     <h2>⚖️ UP Vakil - Legal Drafting Assistant</h2>
     
-    <!-- Beautiful UI Message Banner -->
     <div id="statusMessage" class="message-box"></div>
 
-    <!-- Advocate Mobile Number Verification Field -->
     <div class="form-group">
         <label for="userMobile">Advocate Mobile Number (पंजीकृत मोबाइल नंबर) *:</label>
-        <input type="tel" id="userMobile" placeholder="e.g., 9876543210" maxlength="10" required>
+        <input type="tel" id="userMobile" placeholder="e.g., 9076865482" maxlength="10" required>
         <small style="color: #718096;">Tool access karne ke liye apna registered mobile number darj karein.</small>
+    </div>
+
+    <div class="form-group">
+        <label for="draftLanguage">Draft Language (ड्राफ्ट की भाषा) *:</label>
+        <select id="draftLanguage" required>
+            <option value="Hindi">Shuddh Hindi (शुद्ध हिंदी)</option>
+            <option value="English">Legal English (लीगल इंग्लिश)</option>
+        </select>
     </div>
 
     <div class="form-group">
@@ -149,11 +153,11 @@
 
     <button onclick="generateDraft()">🚀 Generate Legal Draft</button>
 
-    <div id="loadingText" class="loading">⏳ AI Legal Draft तैयार हो रहा है, कृपया प्रतीक्षा करें...</div>
+    <div id="loadingText" class="loading">⏳ AI Legal Draft taiyar ho raha hai, kripya pratiksha karein...</div>
 
     <div class="output-section">
         <label for="outputDraftArea">Generated Draft (तैयार ड्राफ्ट):</label>
-        <textarea id="outputDraftArea" placeholder="ड्राफ्ट यहाँ दिखाई देगा..."></textarea>
+        <textarea id="outputDraftArea" placeholder="Draft yahan dikhai dega..."></textarea>
         <button class="copy-btn" onclick="copyDraft()">📋 Copy Draft</button>
     </div>
 </div>
@@ -181,12 +185,12 @@ async function generateDraft() {
     const azureFunctionUrl = "https://upvakil-drafting-api-czc8gqdgcacngjf6.centralindia-01.azurewebsites.net/api/HttpTrigger-vakil?code=1UimXBL7caE_HrrWcSvBseNyZebco7zvy6DIYVVi2fMMAzFuCBHSqA==";
 
     const userMobile = document.getElementById("userMobile").value.trim();
+    const draftLanguage = document.getElementById("draftLanguage").value;
     const courtName = document.getElementById("courtName").value.trim();
     const caseType = document.getElementById("caseType").value.trim();
     const applicantName = document.getElementById("applicantName").value.trim();
     const facts = document.getElementById("facts").value.trim();
 
-    // Comprehensive Input Validation (Without JS Alerts)
     if (!userMobile) {
         showMessage("Kripya apna registered Mobile Number darj karein.");
         document.getElementById("userMobile").focus();
@@ -210,6 +214,7 @@ async function generateDraft() {
 
     const payload = {
         userMobile: userMobile,
+        language: draftLanguage,
         courtName: courtName,
         caseType: caseType,
         applicantName: applicantName,
