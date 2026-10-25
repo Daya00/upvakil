@@ -281,44 +281,51 @@
   
 <script>
 document.getElementById('leadForm').addEventListener('submit', function (e) {
+    // 1. ALWAYS stop form submission first
     e.preventDefault();
+    e.stopPropagation();
+
     const form = this;
     
-    // 1. Get Elements & Trim inputs to prevent space-only submission
+    // 2. Elements reference
     const nameInput = document.getElementById('advName');
     const phoneInput = document.getElementById('advPhone');
     const courtInput = document.getElementById('advCourt');
 
-    nameInput.value = nameInput.value.trim();
-    phoneInput.value = phoneInput.value.trim();
-    if (courtInput) {
-        courtInput.value = courtInput.value.trim();
-    }
+    // 3. Trim values to eliminate blank spaces
+    const nameVal = nameInput ? nameInput.value.trim() : "";
+    const phoneVal = phoneInput ? phoneInput.value.trim() : "";
+    const courtVal = courtInput ? courtInput.value.trim() : "";
 
-    // 2. Form Validation Check
-    if (!form.checkValidity() || !nameInput.value || !phoneInput.value) {
-        e.stopPropagation();
+    // Set trimmed values back into input fields
+    if (nameInput) nameInput.value = nameVal;
+    if (phoneInput) phoneInput.value = phoneVal;
+    if (courtInput) courtInput.value = courtVal;
+
+    // 4. Strict Validation (Length & Pattern check)
+    const phoneRegex = /^[6-9][0-9]{9}$/;
+    
+    if (!nameVal || !phoneVal || !phoneRegex.test(phoneVal) || !form.checkValidity()) {
         form.classList.add('was-validated');
-        alert("Kripya sabhi zaroori fields sahi se bharein (Empty allow nahi hai).");
-        return false;
+        alert("Kripya sabhi zaroori fields sahi se bharein (Empty ya invalid phone number allow nahi hai).");
+        return false; // Strictly exit function execution
     }
 
-    // 3. UI Updates (Disable button & show spinner)
+    // 5. Disable Submit Button & Show Loading State
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Submitting...';
 
-    // 4. Data Payload Construction
+    // 6. Payload Setup
     const payload = {
-        name: nameInput.value,
-        phone: phoneInput.value,
-        court: courtInput ? courtInput.value : ""
+        name: nameVal,
+        phone: phoneVal,
+        court: courtVal
     };
 
-    // 5. Google Apps Script Endpoint URL
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDpVZ_wWOYD1ist0EYPvYK_f60_ATPg16TZHmIQarMUcacAOXrv9D-3eWWe6VOXYT9/exec";
 
-    // 6. Submit Data to Google Sheets via Web App
+    // 7. Submit to Google Apps Script
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -328,7 +335,6 @@ document.getElementById('leadForm').addEventListener('submit', function (e) {
         body: JSON.stringify(payload)
     })
     .then(() => {
-        // Success Handler
         form.classList.add('d-none');
         const responseMsg = document.getElementById('responseMessage');
         if (responseMsg) {
@@ -336,7 +342,6 @@ document.getElementById('leadForm').addEventListener('submit', function (e) {
         }
     })
     .catch(error => {
-        // Error Handler
         console.error("Submission Error:", error);
         alert("Koi issue aaya. Kripya punah prayas karein.");
         submitBtn.disabled = false;
