@@ -62,7 +62,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Existing Design Styles (Aapka pehle se bana Custom CSS) -->
+    <!-- Existing Design Styles -->
     <style>
         :root {
             --primary-color: #1a365d;
@@ -135,7 +135,7 @@
     <!-- Header / Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fa-solid fa-scale-balanced me-2"></i>UPVAKIL<span style="color: var(--accent-color);">.online</span></a>
+            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fa-solid fa-scale-balanced me-2"></i>UPVakil<span style="color: var(--accent-color);">.online</span></a>
             <span class="badge bg-warning text-dark fs-6 ms-2">UP Legal AI Assistant</span>
         </div>
     </nav>
@@ -220,45 +220,49 @@
                 <div class="col-md-8 text-center">
                     <h2 class="fw-bold mb-2" style="color: var(--primary-color);">Free Beta Access Request Karein</h2>
                     <p class="text-muted mb-4">Apna Mobile No. aur Court details register karein, hum aapko 1-Click Drafting AI Agent ki free link bhejenge.</p>
-                <form id="leadForm" class="row g-3 justify-content-center" novalidate>
-    <!-- Advocate Name -->
-    <div class="col-md-5">
-        <input type="text" id="advName" name="advName" class="form-control form-control-lg" 
-               placeholder="Aapka Naam / Advocate Name" 
-               maxlength="50" 
-               pattern="[A-Za-z\s\.]+" 
-               title="Letters, spaces, and dots only (max 50 characters)" 
-               required>
-        <div class="invalid-feedback">Kripya apna naam zaroor bharein.</div>
-    </div>
+                
+                    <!-- Inline Error Alert Box (Added above the form) -->
+                    <div id="inlineErrorAlert" class="alert alert-danger d-none text-start mb-3" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i><span id="errorAlertText">Kripya sabhi zaroori fields sahi se bharein.</span>
+                    </div>
 
-    <!-- Mobile Number -->
-    <div class="col-md-5">
-        <input type="tel" id="advPhone" name="advPhone" class="form-control form-control-lg" 
-               placeholder="Mobile / WhatsApp No." 
-               maxlength="10" 
-               pattern="[6-9][0-9]{9}" 
-               title="Please enter a valid 10-digit Indian mobile number" 
-               required>
-        <div class="invalid-feedback">Kripya valid 10-digit mobile number bharein.</div>
-    </div>
+                    <form id="leadForm" class="row g-3 justify-content-center" novalidate>
+                        <!-- Advocate Name -->
+                        <div class="col-md-5">
+                            <input type="text" id="advName" name="advName" class="form-control form-control-lg" 
+                                   placeholder="Aapka Naam / Advocate Name" 
+                                   maxlength="50" 
+                                   pattern="[A-Za-z\s\.]+" 
+                                   title="Letters, spaces, and dots only (max 50 characters)" 
+                                   required>
+                            <div class="invalid-feedback">Kripya apna naam zaroor bharein.</div>
+                        </div>
 
-    <!-- Court Name -->
-    <div class="col-md-10">
-        <input type="text" id="advCourt" name="advCourt" class="form-control form-control-lg" 
-               placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)" 
-               maxlength="50" 
-               pattern="[A-Za-z0-9\s,\.-]+" 
-               title="Alphanumeric characters, spaces, dots, and hyphens only">
-    </div>
+                        <!-- Mobile Number -->
+                        <div class="col-md-5">
+                            <input type="tel" id="advPhone" name="advPhone" class="form-control form-control-lg" 
+                                   placeholder="Mobile / WhatsApp No." 
+                                   maxlength="10" 
+                                   pattern="[6-9][0-9]{9}" 
+                                   title="Please enter a valid 10-digit Indian mobile number" 
+                                   required>
+                            <div class="invalid-feedback">Kripya valid 10-digit mobile number bharein.</div>
+                        </div>
 
-    <!-- Submit Button -->
-    <div class="col-md-10">
-        <button type="submit" id="submitBtn" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
-    </div>
-</form>
+                        <!-- Court Name -->
+                        <div class="col-md-10">
+                            <input type="text" id="advCourt" name="advCourt" class="form-control form-control-lg" 
+                                   placeholder="Court Name (e.g., Lucknow Court / High Court Prayagraj)" 
+                                   maxlength="50" 
+                                   pattern="[A-Za-z0-9\s,\.-]+" 
+                                   title="Alphanumeric characters, spaces, dots, and hyphens only">
+                        </div>
 
-
+                        <!-- Submit Button -->
+                        <div class="col-md-10">
+                            <button type="submit" id="submitBtn" class="btn btn-gold btn-lg w-100 fw-bold fs-5">Get Instant Free Access</button>
+                        </div>
+                    </form>
 
                     <!-- Success Response Message (Hidden by default) -->
                     <div id="responseMessage" class="alert alert-success mt-4 d-none" role="alert">
@@ -287,10 +291,15 @@ document.getElementById('leadForm').addEventListener('submit', function (e) {
 
     const form = this;
     
-    // 2. Elements reference
+    // Elements reference
     const nameInput = document.getElementById('advName');
     const phoneInput = document.getElementById('advPhone');
     const courtInput = document.getElementById('advCourt');
+    const errorAlert = document.getElementById('inlineErrorAlert');
+    const errorAlertText = document.getElementById('errorAlertText');
+
+    // Hide error alert initially on submit attempt
+    if (errorAlert) errorAlert.classList.add('d-none');
 
     // 3. Trim values to eliminate blank spaces
     const nameVal = nameInput ? nameInput.value.trim() : "";
@@ -307,7 +316,12 @@ document.getElementById('leadForm').addEventListener('submit', function (e) {
     
     if (!nameVal || !phoneVal || !phoneRegex.test(phoneVal) || !form.checkValidity()) {
         form.classList.add('was-validated');
-        alert("Kripya sabhi zaroori fields sahi se bharein (Empty ya invalid phone number allow nahi hai).");
+        
+        // Show inline error box instead of alert popup
+        if (errorAlert && errorAlertText) {
+            errorAlertText.innerText = "Kripya sabhi zaroori fields sahi se bharein (Empty ya invalid phone number allow nahi hai).";
+            errorAlert.classList.remove('d-none');
+        }
         return false; // Strictly exit function execution
     }
 
@@ -343,7 +357,13 @@ document.getElementById('leadForm').addEventListener('submit', function (e) {
     })
     .catch(error => {
         console.error("Submission Error:", error);
-        alert("Koi issue aaya. Kripya punah prayas karein.");
+        
+        // Show network/submission error in inline box instead of alert
+        if (errorAlert && errorAlertText) {
+            errorAlertText.innerText = "Koi issue aaya. Kripya punah prayas karein.";
+            errorAlert.classList.remove('d-none');
+        }
+
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Get Instant Free Access';
     });
